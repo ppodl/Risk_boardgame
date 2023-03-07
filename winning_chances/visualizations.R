@@ -10,24 +10,27 @@ df_risk <-
 
 df_risk$win %>% round(2)
 
-df_risk %>% 
-  filter(att>1,win>0.1,win<0.9) %>%
-  mutate(labels = (win %>% round(2))*100) %>% 
-  ggplot(aes(x=att %>% as.factor(),y=def %>% as.factor(),fill=win)) +
-    geom_tile() +
-    geom_text(aes(label = labels) ) +
-    scale_fill_gradient(low = 'darkred',high = 'darkgreen',guide = 'none') +
-    theme_bw() +
-    labs(x = 'number of attackers',
-         y='number of defenders',
-         title = 'Winning chances for attacker',
-         subtitle = 'Risk boardgame, https://www.hasbro.com/common/instruct/risk.pdf',
-         caption= 'created by Przemyslaw Podlasin,https://www.linkedin.com/in/przemyslaw-podlasin/') +
-  theme(plot.title = element_text(size = 25)
-        ,plot.subtitle = element_text(size = 20)
-        ,panel.grid.major = element_line(colour = "darkgrey")
-        ,axis.text = element_text(size = 15,colour = "black")
-        ,axis.title = element_text(size = 12))
+heatmap <- 
+  df_risk %>% 
+    filter(att>1,win>0.1,win<0.9) %>%
+    mutate(labels = (win %>% round(2))*100) %>% 
+    ggplot(aes(x=att %>% as.factor(),y=def %>% as.factor(),fill=win)) +
+      geom_tile() +
+      geom_text(aes(label = labels) ) +
+      scale_fill_gradient(low = 'darkred',high = 'darkgreen',guide = 'none') +
+      theme_bw() +
+      labs(x = 'number of attackers',
+           y='number of defenders',
+           title = 'Winning chances for attacker',
+           subtitle = 'Risk boardgame, https://www.hasbro.com/common/instruct/risk.pdf',
+           caption= 'created by Przemyslaw Podlasin,https://www.linkedin.com/in/przemyslaw-podlasin/') +
+    theme(plot.title = element_text(size = 25)
+          ,plot.subtitle = element_text(size = 20)
+          ,panel.grid.major = element_line(colour = "darkgrey")
+          ,axis.text = element_text(size = 15,colour = "black")
+          ,axis.title = element_text(size = 12))
+
+ggsave('heatmap.jpg',heatmap)
 
 
 df_risk %>% 
@@ -44,7 +47,8 @@ df_risk %>%
     theme_bw() +
     labs(color = "attacker's advantage\n(attacking troops - defending troops)"
          ,title = 'Winning chances of attacker in Risk boardgame'
-         ,x = "number of attacking troops") +
+         ,x = "number of attacking troops"
+         ,caption= 'created by Przemyslaw Podlasin,https://www.linkedin.com/in/przemyslaw-podlasin/') +
     theme(legend.position = "top")
   
 
